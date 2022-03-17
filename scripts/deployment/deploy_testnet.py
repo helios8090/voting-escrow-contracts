@@ -45,24 +45,31 @@ def main():
 
     # deploy votingEscrow and feeDistributor
     print(f"Deploying from {deployer}")
-    escrow = repeat(
-        VotingEscrow.deploy,
+
+    escrow = VotingEscrow.deploy(
         config.TEST_DOP_TOKEN_ADDRESS,
         "Vote-escrowed DOP",
         "veDOP",
         "veDOP_1.00",
-        {"from": deployer, "required_confs": CONFS, "publish_source": True},
+        {"from": deployer, "required_confs": CONFS}
     )
+
     save_abi(escrow, "voting_escrow")
 
-    feeDistributor = repeat(
-        FeeDistributor.deploy,
-        escrow,
+    feeDistributor = FeeDistributor.deploy(escrow,
         0, # start time
         config.TEST_DOP_TOKEN_ADDRESS,
         deployer,
         deployer,
-        {"from": deployer, "required_confs": CONFS, "publish_source": True},
-    )
+        {"from": deployer, "required_confs": CONFS})
     save_abi(feeDistributor, "fee_distributor")
+    deployments = {
+        "VotingEscrow": escrow.address,
+        "FeeDistributor": feeDistributor.address,
+        "TestDOP": config.TEST_DOP_TOKEN_ADDRESS
+    }
     
+    if config.DEPLOYMENTS_JSON is not None:
+        with open(config.DEPLOYMENTS_JSON, "w") as fp:
+            json.dump(deployments, fp)
+        print(f"Deployment addresses saved to {config.DEPLOYMENTS_JSON}")
