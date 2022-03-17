@@ -51,7 +51,7 @@ def main():
         "Vote-escrowed DOP",
         "veDOP",
         "veDOP_1.00",
-        {"from": deployer, "required_confs": CONFS},
+        {"from": deployer, "required_confs": CONFS, "publish_source": True},
     )
     save_abi(escrow, "voting_escrow")
 
@@ -62,7 +62,7 @@ def main():
         config.TEST_DOP_TOKEN_ADDRESS,
         deployer,
         deployer,
-        {"from": deployer, "required_confs": CONFS},
+        {"from": deployer, "required_confs": CONFS, "publish_source": True},
     )
     save_abi(feeDistributor, "fee_distributor")
     
