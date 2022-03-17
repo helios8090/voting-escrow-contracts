@@ -1,1 +1,1 @@
-# voting-escrow-contracts
+# drops-veDOP-contracts
