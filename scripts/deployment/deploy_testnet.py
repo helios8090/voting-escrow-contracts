@@ -54,15 +54,12 @@ def main():
         {"from": deployer, "required_confs": CONFS}
     )
 
-    save_abi(escrow, "voting_escrow")
-
     feeDistributor = FeeDistributor.deploy(escrow,
-        0, # start time
+        config.START_TIME, # start time
         config.TEST_DOP_TOKEN_ADDRESS,
         deployer,
         deployer,
         {"from": deployer, "required_confs": CONFS})
-    save_abi(feeDistributor, "fee_distributor")
     deployments = {
         "VotingEscrow": escrow.address,
         "FeeDistributor": feeDistributor.address,
